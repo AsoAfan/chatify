@@ -3,6 +3,7 @@ import SideBarHeader from '@/components/SideBarHeader.vue'
 import SearchInput from '@/components/SearchInput.vue'
 import ActiveUsers from '@/components/ActiveUsers.vue'
 import ChatRow from '@/components/ChatRow.vue'
+import { users } from '@/utils/dumpData'
 </script>
 
 <template>
@@ -11,9 +12,7 @@ import ChatRow from '@/components/ChatRow.vue'
     <SearchInput placeholder="Search..." class="w-full bg-gray-200" />
     <ActiveUsers />
     <section class="flex flex-col justify-center gap-3">
-      <ChatRow v-for="i in 5" :key="i" />
+      <ChatRow :user="user" v-for="user in users" :key="user.id" />
     </section>
   </aside>
 </template>
-
-<style scoped></style>

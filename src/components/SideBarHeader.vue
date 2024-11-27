@@ -1,13 +1,15 @@
-<script setup lang="ts">
-import MessageIcon from '@/components/icons/MessageIcon.vue'
-import SettingsIcon from '@/components/icons/SettingsIcon.vue'
-</script>
-
 <template>
   <header class="flex items-center justify-between">
-    <MessageIcon class="size-6" />
-    <SettingsIcon class="size-6" />
+    <UserProfile v-if="userStore.user" :user="userStore.user" class="size-8" />
+    <UserProfileSkeleton v-else />
+    <button @click="userStore.logout">logout</button>
   </header>
 </template>
 
-<style scoped></style>
+<script setup lang="ts">
+import UserProfile from '@/components/UserProfile.vue'
+import { useUserStore } from '@/stores/user'
+import UserProfileSkeleton from '@/components/skeletons/UserProfileSkeleton.vue'
+
+const userStore = useUserStore()
+</script>
