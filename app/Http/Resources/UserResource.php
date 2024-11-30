@@ -16,6 +16,7 @@ class UserResource extends JsonResource
             'username' => $this->username,
             'email' => $this->email,
             "image_url" => $this->image_url,
+            "conversations" => ConversationResource::collection($this->getConversations()),
             'createdAt' => $this->created_at->diffForHumans(),
             'updatedAt' => $this->updated_at->diffForHumans(),
 //            'notifications_count' => $this->notifications_count,

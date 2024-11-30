@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -9,6 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+    public function search(SearchUserRequest $request)
+    {
+        $data = User::search($request->input("s"))->get();
+        return $this->success(
+            UserResource::collection($data)
+        );
+    }
 
     public function show()
     {
