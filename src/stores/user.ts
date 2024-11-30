@@ -13,6 +13,9 @@ import type { RouteLocationRaw } from 'vue-router'
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null)
+  const searchResult = ref<User[]>([])
+
+  // const chatStore = useChatStore()
 
   const ls = useLocalStorage()
 
@@ -27,14 +30,16 @@ export const useUserStore = defineStore('user', () => {
   ) {
     user.value = responseData.user
 
-    console.log(responseData)
-
     if (responseData.token) ls.setToken(responseData.token)
 
     if (options.withToast) toast.success(message)
 
     if (options.withRedirect) router.push(options.redirectTo ?? { name: 'home' })
   }
+
+  // const addChat = (chat) => {
+  //   user.value?.conversations.push(chat)
+  // }
 
   const getUser = () => {
     tryToDo(async () => {
@@ -79,5 +84,21 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
-  return { user, getUser, signup, login, logout }
+  const search = (s: string) => {
+    tryToDo(async () => {
+      const { data } = await api.get<Response<any>>(ENDPOINTS.Search(s))
+      searchResult.value = data.data
+    })
+  }
+
+  return {
+    user,
+    searchResult,
+    // addChat,
+    getUser,
+    search,
+    signup,
+    login,
+    logout,
+  }
 })

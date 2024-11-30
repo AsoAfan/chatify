@@ -10,9 +10,14 @@ export function auth(from: any, to: any, next: any): void {
     return
   }
 
-  if (ls.hasToken() && !userStore.user) {
+  if (!userStore.user) {
     userStore.getUser()
   }
 
+  // if (!userStore.user) {
+  //   ls.removeToken()
+  //   next({ name: 'login' })
+  //   return
+  // }
   next()
 }
