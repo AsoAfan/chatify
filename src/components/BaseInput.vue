@@ -3,9 +3,4 @@
 </template>
 <script setup lang="ts">
 const model = defineModel()
-
-const { multiline = false, cols = 50 } = defineProps<{
-  multiline?: boolean
-  cols?: number
-}>()
 </script>

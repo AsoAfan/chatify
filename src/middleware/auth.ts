@@ -1,7 +1,12 @@
 import { useUserStore } from '@/stores/user'
 import { useLocalStorage } from '@/composables/useLocalStorage'
+import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 
-export function auth(from: any, to: any, next: any): void {
+export function auth(
+  from: RouteLocationNormalized,
+  to: RouteLocationNormalized,
+  next: NavigationGuardNext,
+): void {
   const userStore = useUserStore()
   const ls = useLocalStorage()
 
@@ -14,8 +19,7 @@ export function auth(from: any, to: any, next: any): void {
     userStore.getUser()
   }
 
-  // if (!userStore.user) {
-  //   ls.removeToken()
+  // if (!userStore.user) ls.removeToken()
   //   next({ name: 'login' })
   //   return
   // }

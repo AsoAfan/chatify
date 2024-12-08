@@ -7,10 +7,11 @@
     </section>
     <section class="flex flex-col justify-center gap-3">
       <ChatRow
-        :user="user.user2"
-        v-for="user in userStore.user?.conversations"
-        :key="user.id"
-        @click="selectUser(user)"
+        :isActive="chatStore.conversation?.id == conversation.id"
+        v-for="conversation in userStore.sortedChats"
+        :conversation="conversation"
+        :key="conversation.id"
+        @click="onClick(conversation)"
       />
     </section>
   </aside>
@@ -23,9 +24,23 @@ import ChatRow from '@/components/ChatRow.vue'
 import { useChatStore } from '@/stores/chat'
 import SearchUsers from '@/components/SearchUsers.vue'
 import { useUserStore } from '@/stores/user'
+import type { Conversation } from '@/type/models'
 
-const { selectUser } = useChatStore()
+const chatStore = useChatStore()
 const userStore = useUserStore()
+
+//
+// if (router.query.chat) {
+//   const chat = userStore.user?.conversations.find((c) => c.id === router.query.chat)
+//   chatStore.selectUser(chat as Conversation)
+// }
+
+const emit = defineEmits(['chatSelected'])
+
+const onClick = (conversation: Conversation) => {
+  chatStore.selectUser(conversation)
+  emit('chatSelected', conversation)
+}
 </script>
 
 <style scoped>

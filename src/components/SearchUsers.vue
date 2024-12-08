@@ -1,14 +1,14 @@
 <template>
-  <div class="relative mt-4">
-    <SearchInput placeholder="Search..." class="w-full bg-gray-200 mb-1" v-model="query" />
-    <template v-if="query.length > 0">
+  <div class="relative mt-4 z-10">
+    <SearchInput placeholder="Search..." class="peer w-full bg-gray-200 mb-1" v-model="query" />
+    <div class="absolute w-full peer-focus:block hidden" v-if="query.length > 0">
       <SearchResultRow
         v-for="user in userStore.searchResult"
         :key="user.id"
         :user="user"
         @click="onCreateChat(user)"
       />
-    </template>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -33,6 +33,7 @@ const onCreateChat = (user: User) => {
     user_id: user.id,
   })
   userStore.addChat()
+  // userStore.user?.conversations
   chatStore.selectUser(user)
   query.value = ''
 }

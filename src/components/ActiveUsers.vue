@@ -1,21 +1,19 @@
 <template>
   <div class="sc flex items-center gap-3 p-3 overflow-x-auto">
-    <UserProfile
-      class="shrink-0"
-      :user="user"
-      v-for="user in users"
-      :key="user.id"
-      @click="selectUser(user)"
-    />
+    <div v-if="userStore.activeUsers.length">
+      <UserProfile :user="user" v-for="user in userStore.activeUsers" :key="user.id" />
+    </div>
+    <p v-else class="text-center w-full text-sm">No active users</p>
+    <!-- @click="selectUser(user)" -->
   </div>
 </template>
 
 <script setup lang="ts">
 import UserProfile from '@/components/UserProfile.vue'
-import { users } from '@/utils/dumpData'
-import { useChatStore } from '@/stores/chat'
+import { useUserStore } from '@/stores/user'
 
-const { selectUser } = useChatStore()
+// const { selectUser } = useChatStore()
+const userStore = useUserStore()
 </script>
 <style scoped>
 ::-webkit-scrollbar {
