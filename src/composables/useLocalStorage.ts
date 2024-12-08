@@ -24,7 +24,6 @@ export const useLocalStorage = () => {
   }
 
   const getToken = () => {
-    console.log('From local storage', getItem('token'))
     return getItem('token')
   }
 

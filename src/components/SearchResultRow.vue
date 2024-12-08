@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 absolute bg-white w-full shadow-xl rounded flex items-center gap-4">
+  <div class="p-4 bg-white w-full shadow-xl rounded flex items-center gap-4 hover:bg-gray-100">
     <UserProfile :user="user" />
     <p>{{ user.username }}</p>
   </div>
