@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit" class="mt-auto p-4 flex items-center gap-2">
+  <form @submit.prevent="onSubmit" class="mt-auto p-4 pb-2 flex items-center gap-2">
     <BaseInput
       multiline
       placeholder="Write your message..."
@@ -15,6 +15,7 @@ import BaseInput from '@/components/BaseInput.vue'
 import { useChatStore } from '@/stores/chat'
 import { ref } from 'vue'
 
+// TODO: which one is better send message here or move the logic into the parent ?
 const chatStore = useChatStore()
 const body = ref('')
 

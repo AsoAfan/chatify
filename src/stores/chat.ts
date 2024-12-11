@@ -1,29 +1,43 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import type { Conversation } from '@/type/models'
+import type { Conversation, Message } from '@/type/models'
 import { tryToDo } from '@/utils/functions'
 import { auth } from '@/lib/axios'
 import { ENDPOINTS } from '@/utils/ENDPOINTS'
 import type { CreateChatForm } from '@/type/formTypes'
-import { toast } from '@/lib/toast'
 import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
+import type { ChatCreate, Response } from '@/type/responseTypes'
 
 export const useChatStore = defineStore('chat', () => {
-  const authUser = useUserStore().user
+  const authUser = useUserStore()
+  const router = useRouter()
 
   const chat = ref<Conversation | null>(null)
-  const selectedUser = computed(() =>
-    chat.value?.user1.id == authUser?.id ? chat.value?.user1 : chat.value?.user2,
-  )
+  const selectedUser = computed(() => {
+    return chat.value?.user1.id == authUser.user?.id ? chat.value?.user2 : chat.value?.user1
+  })
+
+  // const lastMessage = chat.value?.messages.at(-1)
+
+  const pushMessage = (message: Message) => {
+    chat.value?.messages.push(message)
+  }
 
   const selectConversation = (ch: Conversation) => {
     chat.value = ch
+    router.push({
+      query: {
+        chat: ch.id,
+      },
+    })
   }
 
   const createChat = (formData: CreateChatForm) => {
     tryToDo(async () => {
-      const { data } = await auth.post<Response>(ENDPOINTS.CreateChat, formData)
-      toast(data)
+      const { data } = await auth.post<Response<ChatCreate>>(ENDPOINTS.CreateChat, formData)
+      chat.value = data.data.conversation
+      authUser.addChat(chat.value)
     })
   }
 
@@ -48,5 +62,6 @@ export const useChatStore = defineStore('chat', () => {
     createChat,
     sendMessage,
     closeChat,
+    pushMessage,
   }
 })

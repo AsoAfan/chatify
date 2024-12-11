@@ -3,9 +3,10 @@ export interface User {
   username: string
   email: string
   image_url: string
-  conversations: any[]
+  conversations: Conversation[]
   createdAt: string
   updatedAt: string
+  isActive?: boolean
 }
 
 export interface Conversation {
@@ -19,6 +20,6 @@ export interface Message {
   id: string
   body: string
   is_seen: boolean
-  user?: User
+  user: User
   created_at: string
 }
