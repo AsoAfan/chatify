@@ -32,8 +32,10 @@ class User extends Authenticatable
     public function scopeSearch(Builder $query, string $search): Builder
     {
 
-        $query->where("username", "LIKE", "%{$search}%");
+        $query->where("username", "LIKE", "%{$search}%")->where("id", "!=", auth("sanctum")->id());
 
+
+//        $query->select(["id", "username", "image_url", "created_at", "updated_at"]);
 
         return $query->limit(5);
     }

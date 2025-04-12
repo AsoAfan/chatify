@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreConversationRequest;
-use App\Http\Resources\MessageResource;
 use App\Models\Conversation;
 use App\Models\User;
 use Auth;
@@ -33,7 +32,7 @@ class ConversationController extends Controller
 
         return $this->success([
             "user" => $otherUser,
-            "messages" => MessageResource::collection($conversation->messages),
+            "conversation" => $conversation,
         ]);
 
     }

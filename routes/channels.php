@@ -1,7 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Broadcast;
+use App\Models\Conversation;
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel("online-users", function ($user) {
+    return auth("sanctum")->check() ? $user : null;
+});
+
+Broadcast::channel("user.{id}", function ($user, $id) {
+    return $user->id == $id;
+});
+
+Broadcast::channel("chat.{id}", function ($user, $id) {
+    $conversation = Conversation::find($id);
+    return $conversation->id == $id;
 });
